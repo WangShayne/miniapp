@@ -1,0 +1,6 @@
+<radio-group class="group selector-class" bindchange="radioChange">
+  <label class="item flex ai-center" wx:for="{{list}}" wx:key="value">
+    <view>{{item.name}}</view>
+    <radio class="radio ml-auto" value="{{item.value}}" checked="{{item.value === value}}"/>
+  </label>
+</radio-group>

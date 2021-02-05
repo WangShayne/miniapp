@@ -1,0 +1,9 @@
+@import "./styles/flex.wxss";
+@import "./styles/space.wxss";
+@import "./styles/text.wxss";
+
+.spacer {
+  width: 100%;
+  height: 16rpx;
+  background: #e8e8e8;
+}

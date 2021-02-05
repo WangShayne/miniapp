@@ -1,0 +1,4 @@
+<navigator class="flex ai-center cell cell-class" url="{{url}}">
+  <text>{{title}}</text>
+  <image class="arrow ml-auto" src="../../assets/arrow-right.svg" />
+</navigator>

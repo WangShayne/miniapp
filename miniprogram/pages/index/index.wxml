@@ -1,0 +1,6 @@
+<view class="title">Comunion Economics</view>
+<view class="flex">
+  <image src="../../assets/header.jpg" class="header" />
+</view>
+<view class="spacer" />
+<cell title="头像制作" url="../avatar/index" />

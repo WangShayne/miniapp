@@ -1,0 +1,21 @@
+.maker {
+  padding-top: 16vh;
+  text-align: center;
+}
+
+.avatar {
+  width: 320rpx;
+  height: 320rpx;
+  border-radius: 8rpx;
+}
+
+.use-photo {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 32rpx;
+  text-align: center;
+  font-size: 30rpx;
+  color: #999;
+  z-index: 2;
+}
