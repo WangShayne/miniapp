@@ -10,5 +10,5 @@
   <view class="mt-24 px-30">
     <button disabled="{{!role}}" class="save" type="primary" bindtap="saveAvatar">保存到相册</button>
   </view>
-  <canvas class="canvas" canvas-id="canvas" type="2d" />
+  <canvas id="canvas" canvas-id="canvas" type="2d" />
 </view>

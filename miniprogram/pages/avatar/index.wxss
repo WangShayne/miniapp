@@ -64,9 +64,10 @@
   width: 100% !important;
 }
 
-.canvas {
+#canvas {
   position: fixed;
-  left: 120vw;
-  width: 128px;
-  height: 128px;
+  top: 120vh;
+  /* left: -90%; */
+  width: 512px;
+  height: 512px;
 }

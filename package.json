@@ -4,7 +4,9 @@
   "description": "",
   "scripts": {
     "compile": "./node_modules/typescript/bin/tsc",
-    "tsc": "node ./node_modules/typescript/lib/tsc.js"
+    "tsc": "node ./node_modules/typescript/lib/tsc.js",
+    "dev": "tsc --watch",
+    "up": "npm run tsc && minat upload -d 发布 -p $(pwd)"
   },
   "keywords": [],
   "author": "",
