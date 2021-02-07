@@ -1,8 +1,11 @@
 
-.pl-30 {
+.pl-30,
+.px-30 {
   padding-left: 30rpx;
 }
-
+.px-30 {
+  padding-right: 30rpx;
+}
 .mt-24 {
   margin-top: 24rpx;
 }

@@ -1,3 +1,7 @@
 .t-left {
   text-align: left;
 }
+
+.t-gray {
+  color: #999;
+}

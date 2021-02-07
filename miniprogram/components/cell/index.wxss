@@ -1,7 +1,7 @@
 .cell {
   min-height: 80rpx;
   padding: 8rpx 30rpx;
-  font-size: 34rpx;
+  font-size: 32rpx;
   border-bottom: 1rpx solid rgba(0,0,0,0.2);
 }
 

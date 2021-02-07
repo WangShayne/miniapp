@@ -1,9 +1,14 @@
-<view class="maker">
-  <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">授权获取头像</button>
-  <block wx:else>
+<button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" type="primary"  class="auth" bindgetuserinfo="getUserInfo">授权获取头像</button>
+<view wx:else class="maker">
+  <view class="avatar-wrap {{role? 'has-role': ''}}">
     <image bindtap="bindViewTap" class="avatar" src="{{selectedImage || userInfo.avatarUrl}}" mode="cover"></image>
-  </block>
-  <view class="mt-24 pl-30 t-left">请选择你在 Comunion 中的角色：</view>
+    <image wx:if="{{role}}" src="../../assets/badge-{{role}}.png" class="avatar-badge" />
+  </view>
+  <view class="mt-24 pl-30 t-left t-gray">请选择你在 Comunion 中的角色：</view>
   <selector selector-class="mt-24" value="{{role}}" list="{{roles}}" bindchange="onRoleChange" />
   <view class="use-photo" bindtap="onSelectPhoto">使用手机相册照片</view>
+  <view class="mt-24 px-30">
+    <button disabled="{{!role}}" class="save" type="primary" bindtap="saveAvatar">保存到相册</button>
+  </view>
+  <canvas class="canvas" canvas-id="canvas" type="2d" />
 </view>

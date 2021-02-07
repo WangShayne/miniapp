@@ -1,12 +1,51 @@
 .maker {
-  padding-top: 16vh;
   text-align: center;
 }
 
-.avatar {
-  width: 320rpx;
-  height: 320rpx;
+.auth {
+  position: fixed;
+  left: 30rpx;
+  right: 30rpx;
+  bottom: 80rpx;
+  width: calc(100% - 60rpx) !important;
+}
+
+.avatar-wrap {
+  position: relative;
+  margin: 120rpx auto 80rpx;
+  width: 256rpx;
+  height: 256rpx;
   border-radius: 8rpx;
+  overflow: hidden;
+  box-shadow: 2rpx 2rpx 20rpx rgba(0,0,0,0.2);
+}
+
+.avatar-wrap.has-role::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 36rpx;
+  height: 36rpx;
+  background: #fff;
+  z-index: 2;
+}
+
+.avatar {
+  width: 256rpx;
+  height: 256rpx;
+}
+
+.avatar-badge {
+  box-sizing: content-box;
+  position: absolute;
+  right: -8rpx;
+  bottom: -8rpx;
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  border: 8rpx solid #fff;
+  z-index: 10;
 }
 
 .use-photo {
@@ -18,4 +57,16 @@
   font-size: 30rpx;
   color: #999;
   z-index: 2;
+}
+
+.save {
+  margin-top: 48rpx;
+  width: 100% !important;
+}
+
+.canvas {
+  position: fixed;
+  left: 120vw;
+  width: 128px;
+  height: 128px;
 }
