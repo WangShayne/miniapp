@@ -18,7 +18,7 @@ Page({
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    saveEnabled: false
+    saveEnabled: true
   },
   onRoleChange(e: any) {
     this.setData({ role: e.detail.value })
@@ -31,6 +31,17 @@ Page({
       hasUserInfo: true,
     })
   },
+  checkSaveAuth(setting: any) {
+    if (setting.authSetting['scope.writePhotosAlbum'] === false) {
+      if (this.data.saveEnabled) {
+        this.setData({ saveEnabled: false })
+      }
+    } else {
+      if (!this.data.saveEnabled) {
+        this.setData({ saveEnabled: true })
+      }
+    }
+  },
   onSelectPhoto() {
     wx.chooseImage({
       count: 1,
@@ -42,11 +53,15 @@ Page({
       }
     })
   },
+  onOpenedSetting(res: any) {
+    this.checkSaveAuth(res.detail)
+  },
   saveAvatar() {
     wx.createSelectorQuery()
       .select('#canvas')
       .node()
       .exec(async res => {
+        const info = wx.getSystemInfoSync()
         const canvas = res[0].node
         const ctx = canvas.getContext('2d')
         ctx.scale(1, 1)
@@ -54,6 +69,7 @@ Page({
         canvas.width = w
         canvas.height = w
         ctx.fillStyle = '#ffffff'
+        ctx.save()
         // 白边宽度
         const borderW = 32
         const radius = 32
@@ -73,51 +89,61 @@ Page({
         ctx.lineTo(b2[0], b2[1])
         ctx.arcTo(b2[0], b2[1] + radius, b3[0], b3[1], radius)
         ctx.lineTo(b4[0], b4[1])
-        ctx.arcTo(b4[0] + radius, b4[1], b5[0], b5[1], radius)
+        ctx.arcTo(b4[0] + radius - 2, b4[1], b5[0], b5[1], radius)
         ctx.lineTo(b6[0], b6[1])
         ctx.arcTo(b6[0], b6[1] - radius, b7[0], b7[1], radius)
         ctx.lineTo(b8[0], b8[1])
         ctx.arcTo(b8[0] - radius, b8[1], b1[0], b1[1], radius)
         ctx.closePath()
         ctx.clip()
-        ctx.save()
 
         // 头像
         await drawImage(canvas, ctx, this.data.selectedImage || app.globalData.userInfo!.avatarUrl, borderW, borderW, w - 2 * borderW, w - 2 * borderW)
 
+        ctx.restore()
         // 角标
         const badgeRadius = 72
         const badgeBorder = 16
         const badgeCenter = w - borderW - badgeRadius
+        // 右下角填白
+        ctx.fillRect(badgeCenter, badgeCenter, badgeRadius + badgeBorder + borderW, badgeRadius + badgeBorder + borderW)
         // 角标外围
         ctx.beginPath()
         ctx.arc(badgeCenter, badgeCenter, badgeRadius + badgeBorder, 0, 2 * Math.PI)
-        // 右下角填白
-        ctx.rect(badgeCenter, badgeCenter, badgeRadius + badgeBorder, badgeRadius + badgeBorder)
-        ctx.fill()
         ctx.closePath()
-        ctx.restore()
+        ctx.fill()
         // 角标
         ctx.beginPath()
         ctx.arc(badgeCenter, badgeCenter, badgeRadius, 0, 2 * Math.PI)
+        ctx.closePath()
         ctx.clip()
         await drawImage(canvas, ctx, `../../assets/badge-${this.data.role}.png`, w - borderW - 2 * badgeRadius, w - borderW - 2 * badgeRadius, 2 * badgeRadius, 2 * badgeRadius)
-        ctx.closePath()
         wx.canvasToTempFilePath({
           // @ts-ignore
           canvas,
+          destWidth: info.windowWidth * info.pixelRatio,
+          destHeight: info.windowWidth * info.pixelRatio,
           success: (res) => {
             wx.saveImageToPhotosAlbum({
               filePath: res.tempFilePath,
               success() {
                 wx.showToast({ title: '头像已保存', icon: 'success' })
               },
-              fail() {
-                wx.showToast({ title: '保存失败', icon: 'none' })
+              fail: (err) => {
+                if (err.errMsg === 'saveImageToPhotosAlbum:fail auth deny') {
+                  wx.showToast({ title: '请打开设置允许访问相册权限', icon: 'none' })
+                } else {
+                  console.log(err)
+                  wx.showToast({ title: '保存失败', icon: 'none' })
+                }
+                this.setData({
+                  saveEnabled: false
+                })
               }
             })
           },
-          fail() {
+          fail(err) {
+            console.log(err)
             wx.showToast({ title: '生成失败', icon: 'none' })
           }
         })
@@ -152,9 +178,7 @@ Page({
     }
     wx.getSetting({
       success: (res) => {
-        if (res.authSetting['scope.writePhotosAlbum']) {
-          this.setData({ saveEnabled: true })
-        }
+        this.checkSaveAuth(res)
       }
     })
   },

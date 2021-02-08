@@ -1,4 +1,5 @@
 {
+  "navigationBarTitleText": "头像制作",
   "usingComponents": {
     "selector": "../../components/selector"
   }

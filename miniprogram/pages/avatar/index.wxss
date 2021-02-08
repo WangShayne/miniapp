@@ -12,7 +12,7 @@
 
 .avatar-wrap {
   position: relative;
-  margin: 120rpx auto 80rpx;
+  margin: 112rpx auto 72rpx;
   padding: 16rpx;
   width: 256rpx;
   height: 256rpx;
