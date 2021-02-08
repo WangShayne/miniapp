@@ -13,6 +13,7 @@
 .avatar-wrap {
   position: relative;
   margin: 120rpx auto 80rpx;
+  padding: 16rpx;
   width: 256rpx;
   height: 256rpx;
   border-radius: 8rpx;
@@ -32,15 +33,17 @@
 }
 
 .avatar {
-  width: 256rpx;
-  height: 256rpx;
+  width: 100%;
+  height: 100%;
+  border-radius: 16rpx;
+  overflow: hidden;
 }
 
 .avatar-badge {
   box-sizing: content-box;
   position: absolute;
-  right: -8rpx;
-  bottom: -8rpx;
+  right: 8rpx;
+  bottom: 8rpx;
   width: 72rpx;
   height: 72rpx;
   border-radius: 50%;
@@ -66,8 +69,8 @@
 
 #canvas {
   position: fixed;
-  top: 120vh;
-  /* left: -90%; */
+  top: -120vh;
+  left: 0;
   width: 512px;
   height: 512px;
 }

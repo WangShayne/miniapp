@@ -53,48 +53,59 @@ Page({
         const w = 512
         canvas.width = w
         canvas.height = w
-        ctx.fillStyle = '#fff'
+        ctx.fillStyle = '#ffffff'
         // 白边宽度
-        const borderW = 24
-        const radius = 8
+        const borderW = 32
+        const radius = 32
         // 白底
         ctx.fillRect(0, 0, w, w)
         // 白边裁剪区域
         ctx.beginPath()
-        ctx.moveTo(borderW, borderW + radius)
-        ctx.lineTo(borderW, w - borderW - radius)
-        ctx.arcTo(borderW, w - borderW - radius, borderW + radius, w - borderW, radius)
-        ctx.lineTo(w - borderW - radius, w - borderW)
-        ctx.arcTo(w - borderW - radius, w - borderW, w - borderW, w - borderW - radius, radius)
-        ctx.lineTo(w - borderW, borderW + radius)
-        ctx.arcTo(w - borderW, borderW + radius, w - borderW - radius, borderW, radius)
-        ctx.lineTo(borderW + radius, borderW)
-        ctx.arcTo(borderW + radius, borderW, borderW, borderW + radius, radius)
+        const b1 = [borderW, borderW + radius]
+        const b2 = [borderW, w - borderW - radius]
+        const b3 = [borderW + radius, w - borderW]
+        const b4 = [w - borderW - radius, w - borderW]
+        const b5 = [w - borderW, w - borderW - radius]
+        const b6 = [w - borderW, borderW + radius]
+        const b7 = [w - borderW - radius, borderW]
+        const b8 = [borderW + radius, borderW]
+        ctx.moveTo(b1[0], b1[1])
+        ctx.lineTo(b2[0], b2[1])
+        ctx.arcTo(b2[0], b2[1] + radius, b3[0], b3[1], radius)
+        ctx.lineTo(b4[0], b4[1])
+        ctx.arcTo(b4[0] + radius, b4[1], b5[0], b5[1], radius)
+        ctx.lineTo(b6[0], b6[1])
+        ctx.arcTo(b6[0], b6[1] - radius, b7[0], b7[1], radius)
+        ctx.lineTo(b8[0], b8[1])
+        ctx.arcTo(b8[0] - radius, b8[1], b1[0], b1[1], radius)
         ctx.closePath()
         ctx.clip()
+        ctx.save()
 
         // 头像
-        await drawImage(canvas, ctx, this.data.selectedImage || app.globalData.userInfo!.avatarUrl, 0, 0, 512, 512)
+        await drawImage(canvas, ctx, this.data.selectedImage || app.globalData.userInfo!.avatarUrl, borderW, borderW, w - 2 * borderW, w - 2 * borderW)
+
+        // 角标
+        const badgeRadius = 72
+        const badgeBorder = 16
+        const badgeCenter = w - borderW - badgeRadius
         // 角标外围
         ctx.beginPath()
-        ctx.arc(440, 440, 88, 0, 2 * Math.PI)
-        ctx.rect(440, 440, 88, 88)
+        ctx.arc(badgeCenter, badgeCenter, badgeRadius + badgeBorder, 0, 2 * Math.PI)
+        // 右下角填白
+        ctx.rect(badgeCenter, badgeCenter, badgeRadius + badgeBorder, badgeRadius + badgeBorder)
         ctx.fill()
         ctx.closePath()
+        ctx.restore()
         // 角标
         ctx.beginPath()
-        ctx.arc(440, 440, 72, 0, 2 * Math.PI)
+        ctx.arc(badgeCenter, badgeCenter, badgeRadius, 0, 2 * Math.PI)
         ctx.clip()
-        await drawImage(canvas, ctx, `../../assets/badge-${this.data.role}.png`, 368, 368, 144, 144)
+        await drawImage(canvas, ctx, `../../assets/badge-${this.data.role}.png`, w - borderW - 2 * badgeRadius, w - borderW - 2 * badgeRadius, 2 * badgeRadius, 2 * badgeRadius)
         ctx.closePath()
-        // const info = wx.getSystemInfoSync()
         wx.canvasToTempFilePath({
           // @ts-ignore
           canvas,
-          // width: 512,
-          // height: 512,
-          // destWidth: 512 * info.pixelRatio,
-          // destHeight: 512 * info.pixelRatio,
           success: (res) => {
             wx.saveImageToPhotosAlbum({
               filePath: res.tempFilePath,
