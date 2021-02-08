@@ -10,3 +10,10 @@
   height: 360rpx;
   object-fit: cover;
 }
+
+.desc {
+  padding: 24rpx 30rpx;
+  white-space: pre-wrap;
+  word-break: break-all;
+  color: #999;
+}
