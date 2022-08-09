@@ -1,12 +1,12 @@
 {
   "name": "miniprogram-ts-quickstart",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "scripts": {
     "compile": "./node_modules/typescript/bin/tsc",
     "tsc": "node ./node_modules/typescript/lib/tsc.js",
     "dev": "tsc --watch",
-    "up": "npm run tsc && minat upload -d 添加分享 -p $(pwd)"
+    "up": "npm run tsc && minat upload -d 文案修改 -p $(pwd)"
   },
   "keywords": [],
   "author": "",

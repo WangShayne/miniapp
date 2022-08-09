@@ -1,13 +1,13 @@
 // index.ts
 
 import { drawImage } from "../../utils/util"
-import share from '../../common/share'
+// import share from '../../common/share'
 
 // 获取应用实例
 const app = getApp<IAppOption>()
 
 Page({
-  ...share,
+  // ...share,
   data: {
     role: '',
     roles: [
