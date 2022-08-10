@@ -1,15 +1,18 @@
-<button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" type="primary"  class="auth" bindgetuserinfo="getUserInfo">授权获取头像</button>
+<view wx:if="{{!hasUserInfo}}">
+  <button wx:if="{{!isHighSDKVersion && canIUse}}" open-type="getUserInfo" type="primary" class="auth" bindgetuserinfo="getUserInfo">授权获取头像</button>
+  <button wx:else open-type="chooseAvatar" type="primary" class="auth" bind:chooseavatar="onChooseAvatar">授权获取头像</button>
+</view>
 <view wx:else class="maker">
   <view class="avatar-wrap {{role? 'has-role': ''}}">
-    <image bindtap="bindViewTap" class="avatar" src="{{selectedImage || userInfo.avatarUrl}}" mode="cover"></image>
+    <image bindtap="bindViewTap" class="avatar" src="{{selectedImage || userInfo.avatarUrl || avatarUrl}}" mode="cover"></image>
     <image wx:if="{{role}}" src="../../assets/badge-{{role}}.png" class="avatar-badge" />
   </view>
   <view class="pl-30 t-left t-gray">请选择你在 Comunion 中的角色：</view>
   <selector selector-class="mt-24" value="{{role}}" list="{{roles}}" bindchange="onRoleChange" />
   <view class="use-photo" bindtap="onSelectPhoto">使用手机相册照片</view>
   <view class="mt-24 px-30">
-    <button wx:if="{{saveEnabled}}" disabled="{{(!userInfo.avatarUrl && !selectedImage) || !role}}" class="save" type="primary" bindtap="saveAvatar">保存到相册</button>
-    <button wx:else disabled="{{(!userInfo.avatarUrl && !selectedImage) || !role}}" class="save" type="primary" open-type="openSetting" bindopensetting="onOpenedSetting">授权访问相册后保存</button>
+    <button wx:if="{{saveEnabled}}" disabled="{{(!userInfo.avatarUrl && !selectedImage && !avatarUrl) || !role}}" class="save" type="primary" bindtap="saveAvatar">保存到相册</button>
+    <button wx:else disabled="{{(!userInfo.avatarUrl && !selectedImage && !avatarUrl) || !role}}" class="save" type="primary" open-type="openSetting" bindopensetting="onOpenedSetting">授权访问相册后保存</button>
   </view>
   <canvas id="canvas" canvas-id="canvas" type="2d" />
 </view>

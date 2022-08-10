@@ -5,6 +5,7 @@ import { drawImage } from "../../utils/util"
 
 // 获取应用实例
 const app = getApp<IAppOption>()
+const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
 
 Page({
   // ...share,
@@ -19,8 +20,10 @@ Page({
     selectedImage: '',
     userInfo: {},
     hasUserInfo: false,
+    isHighSDKVersion: app.globalData.isHighSDKVersion,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    saveEnabled: true
+    saveEnabled: true,
+    avatarUrl: defaultAvatarUrl
   },
   onRoleChange(e: any) {
     this.setData({ role: e.detail.value })
@@ -30,6 +33,14 @@ Page({
     app.globalData.userInfo = e.detail.userInfo
     this.setData({
       userInfo: e.detail.userInfo,
+      hasUserInfo: true,
+    })
+  },
+  onChooseAvatar(e: any) {
+    const { avatarUrl } = e.detail
+    console.log(e.detail)
+    this.setData({
+      avatarUrl,
       hasUserInfo: true,
     })
   },
@@ -48,7 +59,7 @@ Page({
     wx.chooseImage({
       count: 1,
       sizeType: ['compressed'],
-      success: ({tempFilePaths}) => {
+      success: ({ tempFilePaths }) => {
         this.setData({
           selectedImage: tempFilePaths[0]
         })
@@ -100,7 +111,7 @@ Page({
         ctx.clip()
 
         // 头像
-        await drawImage(canvas, ctx, this.data.selectedImage || app.globalData.userInfo!.avatarUrl, borderW, borderW, w - 2 * borderW, w - 2 * borderW)
+        await drawImage(canvas, ctx, this.data.selectedImage || app.globalData.userInfo?.avatarUrl || this.data.avatarUrl, borderW, borderW, w - 2 * borderW, w - 2 * borderW)
 
         ctx.restore()
         // 角标
