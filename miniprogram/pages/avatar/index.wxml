@@ -1,7 +1,10 @@
-<button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" type="primary"  class="auth" bindgetuserinfo="getUserInfo">授权获取头像</button>
+<view wx:if="{{!hasUserInfo}}">
+  <button wx:if="{{!isHighSDKVersion && canIUse}}" open-type="getUserInfo" type="primary" class="auth" bindgetuserinfo="getUserInfo">授权获取头像</button>
+  <button wx:else open-type="chooseAvatar" type="primary" class="auth" bind:chooseavatar="onChooseAvatar">授权获取头像</button>
+</view>
 <view wx:else class="maker">
   <view class="avatar-wrap {{role? 'has-role': ''}}">
-    <image bindtap="bindViewTap" class="avatar" src="{{selectedImage || userInfo.avatarUrl}}" mode="cover"></image>
+    <image bindtap="bindViewTap" class="avatar" src="{{selectedImage || userInfo.avatarUrl || avatarUrl}}" mode="cover"></image>
     <image wx:if="{{role}}" src="../../assets/badge-{{role}}.png" class="avatar-badge" />
   </view>
   <view class="pl-30 t-left t-gray">请选择你在 Comunion 中的角色：</view>
