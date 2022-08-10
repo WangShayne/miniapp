@@ -11,8 +11,8 @@
   <selector selector-class="mt-24" value="{{role}}" list="{{roles}}" bindchange="onRoleChange" />
   <view class="use-photo" bindtap="onSelectPhoto">使用手机相册照片</view>
   <view class="mt-24 px-30">
-    <button wx:if="{{saveEnabled}}" disabled="{{(!userInfo.avatarUrl && !selectedImage) || !role}}" class="save" type="primary" bindtap="saveAvatar">保存到相册</button>
-    <button wx:else disabled="{{(!userInfo.avatarUrl && !selectedImage) || !role}}" class="save" type="primary" open-type="openSetting" bindopensetting="onOpenedSetting">授权访问相册后保存</button>
+    <button wx:if="{{saveEnabled}}" disabled="{{(!userInfo.avatarUrl && !selectedImage && !avatarUrl) || !role}}" class="save" type="primary" bindtap="saveAvatar">保存到相册</button>
+    <button wx:else disabled="{{(!userInfo.avatarUrl && !selectedImage && !avatarUrl) || !role}}" class="save" type="primary" open-type="openSetting" bindopensetting="onOpenedSetting">授权访问相册后保存</button>
   </view>
   <canvas id="canvas" canvas-id="canvas" type="2d" />
 </view>

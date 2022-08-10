@@ -111,7 +111,7 @@ Page({
         ctx.clip()
 
         // 头像
-        await drawImage(canvas, ctx, this.data.selectedImage || app.globalData.userInfo!.avatarUrl, borderW, borderW, w - 2 * borderW, w - 2 * borderW)
+        await drawImage(canvas, ctx, this.data.selectedImage || app.globalData.userInfo?.avatarUrl || this.data.avatarUrl, borderW, borderW, w - 2 * borderW, w - 2 * borderW)
 
         ctx.restore()
         // 角标
